@@ -12,7 +12,19 @@ defmodule Restaurant do
       :world
 
   """
-  def main(args) do
-    IO.puts "hello"
+  def main(_args) do
+    {:ok, agent} = Agent.start_link(fn -> [] end)
+
+    Enum.map(['Pizza', 'Cake'], fn(item) ->
+      Waiter.place_order(item)
+      |> Cook.handle
+      |> AssistantManager.handle
+      |> Cashier.handle(agent)
+    end)
+
+    Cashier.pay_outstanding_orders(agent)
+    |> OrderPrinter.handle
+
+    Agent.stop(agent)
   end
 end
