@@ -1,6 +1,6 @@
 # Restaurant
 
-**TODO: Add description**
+An Elixir implementation of the CQRS example - restaurant. See [Ruby implementation here](https://github.com/hannakalinowska/restaurant/) - where we knew what we were doing.
 
 ## Installation
 
@@ -23,6 +23,12 @@ be found at [https://hexdocs.pm/restaurant](https://hexdocs.pm/restaurant).
 
 ### Compilation
 
+Use the `Makefile`:
+```sh
+make
+```
+Or don't:
+
 ```sh
 mix compile
 mix escript.build
@@ -30,6 +36,11 @@ mix escript.build
 
 ### Run tests
 
+Use the `Makefile`:
+```sh
+make test
+```
+Or don't:
 ```sh
 mix test
 ```
@@ -37,11 +48,16 @@ mix test
 ### Run code
 
 ```sh
-./tube
+./restaurant
 ```
 
 ### Run console
 
+Use the `Makefile`:
+```sh
+make console
+```
+Or don't:
 ```sh
 iex -S mix
 ```
