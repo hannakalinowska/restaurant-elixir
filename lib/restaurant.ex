@@ -13,18 +13,19 @@ defmodule Restaurant do
 
   """
   def main(_args) do
-    {:ok, agent} = Agent.start_link(fn -> [] end)
+    {:ok, _multiplexer} = Multiplexer.start_link(3, Cook, AssistantManager)
+    #{:ok, _cook} = Cook.start_link(AssistantManager)
+    {:ok, _assistant_manager} = AssistantManager.start_link(Cashier)
+    {:ok, _cashier} = Cashier.start_link
 
     Enum.map(['Pizza', 'Cake'], fn(item) ->
       Waiter.place_order(item)
-      |> Cook.handle
-      |> AssistantManager.handle
-      |> Cashier.handle(agent)
+      |> Multiplexer.handle
     end)
 
-    Cashier.pay_outstanding_orders(agent)
-    |> OrderPrinter.handle
+    :timer.sleep(8000)
 
-    Agent.stop(agent)
+    Cashier.pay_outstanding_orders
+    |> OrderPrinter.handle
   end
 end
